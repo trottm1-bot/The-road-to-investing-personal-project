@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Quest | Introduction to Investing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
+        .neon-glow { text-shadow: 0 0 10px #22d3ee; }
+        .quest-card:hover { border-color: #818cf8; transform: scale(1.02); transition: 0.3s; }
+        .progress-bar { transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <header class="max-w-6xl mx-auto mb-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+            <div>
+                <h1 class="text-4xl font-900 tracking-tighter text-cyan-400 italic">MONEY QUEST 🚀</h1>
+                <p class="text-slate-400 mt-1">Daily Quick-Take: Inflation makes your chips cost more but the bag gets smaller. Invest to fight back! 📉</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl w-full md:w-64 text-right">
+                <span class="text-xs uppercase text-slate-500 font-bold">Simulated Net Worth</span>
+                <p class="text-2xl font-black text-green-400">$10,000.00</p>
+            </div>
+        </div>
+
+        <div class="relative pt-1">
+            <div class="flex mb-2 items-center justify-between">
+                <div><span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-cyan-400 bg-cyan-900/30">Level 2: The Hustler</span></div>
+                <div class="text-right"><span id="xp-display" class="text-xs font-semibold inline-block text-cyan-400">350 / 1000 XP</span></div>
+            </div>
+            <div class="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-slate-800">
+                <div id="xp-bar" style="width:35%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-cyan-500 progress-bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
+        
+        <section class="lg:col-span-2 space-y-8">
+            <h2 class="text-2xl font-bold uppercase tracking-widest text-slate-300">Active Quests</h2>
+            
+            <div class="quest-card bg-slate-900 p-6 rounded-3xl border border-slate-800 cursor-pointer group" onclick="completeStep(100)">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold group-hover:text-cyan-400">Quest 1: The Hustle 💸</h3>
+                        <p class="text-slate-400 text-sm mt-2">Master the 50/30/20 rule and defeat the Tax Boss. Shift from "asking for money" to "generating value."</p>
+                    </div>
+                    <span class="text-3xl">🔓</span>
+                </div>
+            </div>
+
+            <div class="quest-card bg-slate-900 p-6 rounded-3xl border border-slate-800 cursor-pointer group" onclick="completeStep(150)">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold group-hover:text-purple-400">Quest 2: Money Multiplication 📈</h3>
+                        <p class="text-slate-400 text-sm mt-2">The "hook": Learn how your money grows while you sleep using compound interest and the stock market.</p>
+                    </div>
+                    <span class="text-3xl">🔓</span>
+                </div>
+            </div>
+
+            <div class="quest-card bg-slate-950 p-6 rounded-3xl border border-slate-800 opacity-50 grayscale">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold">Quest 3: The Shield 🛡️</h3>
+                        <p class="text-slate-400 text-sm mt-2">Locked! Reach Level 5 to learn how to spot "Finfluencer" scams and build your Credit Score (The Adult GPA).</p>
+                    </div>
+                    <span class="text-3xl">🔒</span>
+                </div>
+            </div>
+        </section>
+
+        <aside class="space-y-6">
+            <div class="bg-indigo-950/20 border-2 border-indigo-500/30 p-6 rounded-3xl">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">🧪 The Lab</h2>
+                
+                <div class="space-y-4">
+                    <p class="text-xs uppercase text-slate-400 font-bold">Millionaire Clock Slider</p>
+                    <label class="block text-sm">Monthly Investment ($)</label>
+                    <input type="range" id="monthly" min="10" max="1000" value="100" class="w-full accent-cyan-400">
+                    
+                    <label class="block text-sm">Years Investing</label>
+                    <input type="range" id="years" min="1" max="50" value="20" class="w-full accent-cyan-400">
+                    
+                    <div class="bg-black/50 p-4 rounded-2xl text-center border border-slate-800">
+                        <p class="text-xs text-slate-500 uppercase">Future Wealth (8% Return)</p>
+                        <p id="calc-result" class="text-3xl font-black text-cyan-400">$58,902</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                <h3 class="font-bold text-pink-500 mb-2 italic">⚠️ Risk Thermometer</h3>
+                <div class="h-4 bg-slate-800 rounded-full flex overflow-hidden">
+                    <div class="w-1/3 bg-blue-500"></div>
+                    <div class="w-1/3 bg-yellow-500"></div>
+                    <div class="w-1/3 bg-red-500"></div>
+                </div>
+                <div class="flex justify-between text-[10px] uppercase mt-1 font-bold text-slate-500">
+                    <span>Bonds (Safe)</span>
+                    <span>Stocks</span>
+                    <span>Crypto (Wild)</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <section class="max-w-6xl mx-auto mt-20 pt-10 border-t border-slate-800">
+        <h3 class="text-2xl font-bold mb-8 italic">Investor's Dictionary 📖</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-cyan-400 font-bold">Asset:</span> Anything that puts money INTO your pocket (like stocks).
+            </div>
+            <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-pink-400 font-bold">Liability:</span> Anything that takes money OUT (like car payments).
+            </div>
+            <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                <span class="text-purple-400 font-bold">ETF:</span> A "basket" of many different stocks. Diversification!
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Wealth Calculator Logic using A = P(1 + r/n)^(nt) derivative for monthly contributions
+        const monthlyIn = document.getElementById('monthly');
+        const yearsIn = document.getElementById('years');
+        const resultOut = document.getElementById('calc-result');
+
+        function updateCalculator() {
+            const PMT = parseFloat(monthlyIn.value);
+            const t = parseInt(yearsIn.value);
+            const r = 0.08; 
+            const n = 12;
+
+            // FV = PMT * (((1 + r/n)^(nt) - 1) / (r/n))
+            const fv = PMT * ((Math.pow(1 + r/n, n * t) - 1) / (r/n));
+            resultOut.innerText = '$' + Math.round(fv).toLocaleString();
+        }
+
+        monthlyIn.addEventListener('input', updateCalculator);
+        yearsIn.addEventListener('input', updateCalculator);
+
+        // Gamification Logic
+        let xp = 350;
+        function completeStep(points) {
+            xp = Math.min(xp + points, 1000);
+            document.getElementById('xp-bar').style.width = (xp / 10) + '%';
+            document.getElementById('xp-display').innerText = xp + ' / 1000 XP';
+            if(xp === 1000) alert("CONGRATS! You reached Level 3: The Investor! 🚀");
+        }
+    </script>
+</body>
+</html>
